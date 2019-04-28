@@ -2,11 +2,6 @@ import os
 import requests
 
 ARCHIVES_URL = "https://www.sec.gov/Archives"
-
-# from dotenv import load_dotenv
-# load_dotenv()
-# COMPANY_ID = os.environ.get("COMPANY", "1018724") # defaults to AMAZON
-# FILING_TYPE = os.environ.get("FILING", "10-K")
 COMPANY_ID = "1018724" # AMAZON
 FILING_TYPE = "10-K"
 
