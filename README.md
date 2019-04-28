@@ -27,3 +27,17 @@ Get filings:
 ```sh
 python app/get_filings.py
 ```
+
+## Testing
+
+Install pytest (first time only):
+
+```sh
+pip install pytest
+```
+
+Run tests:
+
+```sh
+pytest
+```
