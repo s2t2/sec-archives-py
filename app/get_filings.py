@@ -8,13 +8,18 @@ print("URL:", request_url) #> https://www.sec.gov/Archives/edgar/full-index/2013
 response = requests.get(request_url)
 print("RESPONSE:", response.status_code, type(response))
 
-#company_id = "1018724" # AMAZON
-
-# breakpoint()
-# type(response.text) #> str
-
 lines = response.text.split("\n")
-print(f"FILINGS ({len(lines)}):")
 
-for line in lines:
+print(f"FILINGS ({len(lines)})...")
+
+#for line in lines:
+#    print(line)
+
+company_id = "1018724" # AMAZON
+
+company_lines = [line for line in lines if company_id in line]
+
+print(f"COMPANY {company_id} FILINGS ({len(company_lines)})...")
+
+for line in company_lines:
     print(line)
