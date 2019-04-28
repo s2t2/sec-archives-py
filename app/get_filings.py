@@ -27,7 +27,8 @@ if __name__ == "__main__":
     quarter = "1"
     request_url = f"https://www.sec.gov/Archives/edgar/full-index/{year}/QTR{quarter}/master.idx"
 
-    print("URL:", request_url) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
+    print("--------")
+    print("ARCHIVES URL:", request_url) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
 
     response = requests.get(request_url)
 
@@ -37,11 +38,9 @@ if __name__ == "__main__":
 
     print(f"FILINGS: {len(lines)}")
 
-    company_lines = [line for line in lines if (COMPANY_ID in line and FILING_TYPE in line)]
+    filings = [parse_line(line) for line in lines if (COMPANY_ID in line and FILING_TYPE in line)]
 
-    print(f"10-K FILINGS FOR COMPANY #{company_id}: {len(company_lines)}")
+    print(f"10-K FILINGS FOR COMPANY #{COMPANY_ID}: {len(filings)}")
 
-    for line in company_lines:
-        filing = parse_line(line)
-        #print(f"  + '{filing['company_name']}' {filing['path']}")
-        print(filing)
+    for filing in filings:
+        print("...", filing["date"], filing["url"])
