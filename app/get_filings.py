@@ -6,10 +6,12 @@ from app.models.filing import Filing
 
 load_dotenv()
 
-FILING_TYPE = "10-K"
-COMPANY_ID = os.environ.get("COMPANY_ID", "1018724") # defaults to Amazon
+FORM_NAME = "10-K"
+COMPANY_ID = os.environ.get("COMPANY", "1018724") # defaults to Amazon
 YR = os.environ.get("YR", "2013") # your digit year
 QTR = os.environ.get("QTR", "1") # quarter 1, 2, 3 or 4
+
+search_terms = ["anticipate", "believe", "depend", "fluctuate", "indefinite", "likelihood", "possible", "predict", "risk", "uncertain", "is"]
 
 def new_filing(line):
     """
@@ -28,23 +30,34 @@ def new_filing(line):
 
 if __name__ == "__main__":
 
-    request_url = f"https://www.sec.gov/Archives/edgar/full-index/{YR}/QTR{QTR}/master.idx"
-
     print("--------")
-    print("ARCHIVES URL:", request_url) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
+    print(f"YEAR: '{YR}'")
+    print(f"QUARTER: '{QTR}'")
+    request_url = f"https://www.sec.gov/Archives/edgar/full-index/{YR}/QTR{QTR}/master.idx"
+    print("FILINGS INDEX:", request_url) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
 
     response = requests.get(request_url)
-
-    print("RESPONSE:", response.status_code, type(response))
-
+    #print("RESPONSE:", response.status_code, type(response))
     lines = response.text.split("\n")
-
-    print(f"FILINGS: {len(lines)}")
-
-    filings = [new_filing(line) for line in lines if (COMPANY_ID in line and FILING_TYPE in line)]
-
-    print("--------")
-    print(f"COMPANY #{COMPANY_ID} '10-K' FORMS:")
+    print(f"FOUND {len(lines)} FILINGS")
+    print(f"COMPANY: '{COMPANY_ID}'")
+    print(f"FORM NAME: '{FORM_NAME}'")
+    filings = [new_filing(line) for line in lines if (COMPANY_ID in line and FORM_NAME in line)]
+    print(f"FOUND {len(filings)} MATCHING FILINGS:")
 
     for filing in filings:
-        print("...", filing.date, filing.document_url())
+        print("--------")
+        print("COMPANY:", filing.company_name)
+        print("FILED ON:", filing.date)
+        print("DOCUMENT URL:", filing.document_url())
+        response = requests.get(filing.document_url())
+        #print("RESPONSE:", response.status_code, type(response))
+
+        # TODO: write response to file
+
+        print("DOCUMENT SEARCH:")
+        for search_term in search_terms:
+
+            n = response.text.count(search_term)
+
+            print(" + ", search_term, n)

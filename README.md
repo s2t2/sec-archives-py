@@ -22,10 +22,12 @@ pip install -r requirements.txt
 
 ## Usage
 
-Get filings:
+Get filings (optionally specifying search params):
 
 ```sh
 python -m app.get_filings
+
+COMPANY="1018724" YR="2013" QTR="1" python -m app.get_filings
 ```
 
 ## Testing
