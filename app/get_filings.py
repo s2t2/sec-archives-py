@@ -2,21 +2,14 @@ import os
 import requests
 from dotenv import load_dotenv
 
-ARCHIVES_URL = "https://www.sec.gov/Archives"
-FILING_TYPE = "10-K"
+from app.models.filing import Filing
 
 load_dotenv()
 
+FILING_TYPE = "10-K"
 COMPANY_ID = os.environ.get("COMPANY_ID", "1018724") # defaults to Amazon
 YR = os.environ.get("YR", "2013") # your digit year
 QTR = os.environ.get("QTR", "1") # quarter 1, 2, 3 or 4
-
-def document_url(filing):
-    """
-    compiles a url where the filing document can be found and parsed
-    @param filing: a dict with keys "company_id", "company_name", "form", "date", and "path"
-    """
-    return os.path.join(ARCHIVES_URL, filing["path"])
 
 def new_filing(line):
     """
@@ -24,14 +17,14 @@ def new_filing(line):
     @param line: a string like '1018724|AMAZON COM INC|10-K|2013-01-30|edgar/data/1018724/0001193125-13-028520.txt'
     """
     values = line.split("|") #> ['1018724', 'AMAZON COM INC', '10-K', '2013-01-30', 'edgar/data/1018724/0001193125-13-028520.txt']
-    filing = {
+    filing_params = {
         "company_id": values[0],
         "company_name": values[1],
-        "form": values[2],
+        "form_name": values[2],
         "date": values[3],
-        "path": values[4]
+        "document_path": values[4]
     }
-    return filing
+    return Filing(filing_params)
 
 if __name__ == "__main__":
 
@@ -54,4 +47,4 @@ if __name__ == "__main__":
     print(f"COMPANY #{COMPANY_ID} '10-K' FORMS:")
 
     for filing in filings:
-        print("...", filing["date"], document_url(filing))
+        print("...", filing.date, filing.document_url())

@@ -25,7 +25,7 @@ pip install -r requirements.txt
 Get filings:
 
 ```sh
-python app/get_filings.py
+python -m app.get_filings
 ```
 
 ## Testing
