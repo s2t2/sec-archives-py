@@ -1,10 +1,7 @@
 import os
 import requests
-from dotenv import load_dotenv
 
 from app.models.filing import ARCHIVES_URL, Filing
-
-load_dotenv()
 
 FORM_NAME = "10-K"
 COMPANY_ID = os.environ.get("COMPANY", "1018724") # defaults to Amazon
