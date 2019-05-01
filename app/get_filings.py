@@ -2,7 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 
-from app.models.filing import Filing
+from app.models.filing import ARCHIVES_URL, Filing
 
 load_dotenv()
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     print("--------")
     print(f"YEAR: '{YR}'")
     print(f"QUARTER: '{QTR}'")
-    request_url = f"https://www.sec.gov/Archives/edgar/full-index/{YR}/QTR{QTR}/master.idx"
+    request_url = f"{ARCHIVES_URL}/edgar/full-index/{YR}/QTR{QTR}/master.idx"
     print("FILINGS INDEX:", request_url) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
 
     response = requests.get(request_url)
