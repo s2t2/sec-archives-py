@@ -1,6 +1,8 @@
 
 # SEC Archives (Python)
 
+[![Build Status](https://travis-ci.com/s2t2/sec-archives-py.svg?branch=master)](https://travis-ci.com/s2t2/sec-archives-py)
+
 ## Prerequisites
 
 Requires Anaconda, Python, and Pip versions 3.7.
