@@ -1,7 +1,7 @@
 
 
 
-ARCHIVES_URL = "https://www.sec.gov/Archives" # refactor me
+from app.archives import ARCHIVES_URL
 
 class Quarter():
     """

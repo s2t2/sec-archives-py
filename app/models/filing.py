@@ -1,5 +1,5 @@
 
-ARCHIVES_URL = "https://www.sec.gov/Archives"
+from app.archives import ARCHIVES_URL
 
 class Filing():
 

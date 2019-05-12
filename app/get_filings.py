@@ -1,7 +1,8 @@
 import os
 import requests
 
-from app.models.filing import ARCHIVES_URL, Filing
+from app.models.filing import Filing
+from app.models.quarter import Quarter
 
 FORM_NAME = "10-K"
 COMPANY_ID = os.environ.get("COMPANY", "1018724") # defaults to Amazon
@@ -30,7 +31,8 @@ if __name__ == "__main__":
     print("--------")
     print(f"YEAR: '{YR}'")
     print(f"QUARTER: '{QTR}'")
-    request_url = f"{ARCHIVES_URL}/edgar/full-index/{YR}/QTR{QTR}/master.idx"
+    idx = Quarter(YR, QTR)
+    request_url = idx.url()
     print("FILINGS INDEX:", request_url) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
 
     response = requests.get(request_url)
