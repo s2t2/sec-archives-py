@@ -34,6 +34,14 @@ COMPANY="1000180" python -m app.services.get_filings
 COMPANY="1018724" YR="2013" QTR="1" python -m app.services.get_filings
 ```
 
+Get 10-K filings for a given company:
+
+```sh
+python -m app.services.get_filings
+
+COMPANY="1018724" python -m app.services.company_10k_filings
+```
+
 ## Testing
 
 Install pytest (first time only):
