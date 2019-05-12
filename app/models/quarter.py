@@ -12,5 +12,5 @@ class Quarter():
         self.yr = yr
         self.qtr = qtr
 
-    def url(self):
+    def filings_url(self):
         return f"{ARCHIVES_URL}/edgar/full-index/{self.yr}/QTR{self.qtr}/master.idx"

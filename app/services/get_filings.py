@@ -12,12 +12,15 @@ QTR = os.environ.get("QTR", "1") # quarter 1, 2, 3 or 4
 
 search_terms = ["anticipate", "believe", "depend", "fluctuate", "indefinite", "likelihood", "possible", "predict", "risk", "uncertain", "is"]
 
+HEADER_LINE = "CIK|Company Name|Form Type|Date Filed|Filename"
+
 def get_filings(idx):
-    response = requests.get(idx.url())
+    response = requests.get(idx.filings_url())
     #print("RESPONSE:", response.status_code, type(response))
     lines = response.text.split("\n") #> 303630 lines
 
     filing_lines = [l for l in lines if l.count("|") == 4] #> 303619 lines
+    filing_lines = [l for l in filing_lines if l != HEADER_LINE]
     filings = [new_filing(l) for l in filing_lines]
 
     header_lines = [l for l in lines if l.count("|") != 4]
@@ -53,23 +56,26 @@ def new_filing(line):
 
 if __name__ == "__main__":
 
-    print("-------------------------------")
+    print("----------------------------------------------")
     print(f"YEAR: '{YR}'")
     print(f"QUARTER: '{QTR}'")
-    idx = Quarter(YR, QTR)
-    print("FILINGS INDEX:", idx.url()) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
-    metadata, filings = get_filings(idx)
-    pprint(metadata)
-    print(f"FOUND {len(filings)} FILINGS")
-
-    print("-------------------------------")
     print(f"COMPANY: '{COMPANY_ID}'")
     print(f"FORM NAME: '{FORM_NAME}'")
+    print("----------------------------------------------")
+
+    idx = Quarter(YR, QTR)
+    print("FILINGS INDEX:", idx.filings_url()) #> https://www.sec.gov/Archives/edgar/full-index/2013/QTR1/master.idx
+
+    metadata, filings = get_filings(idx)
+    print(f"CONTAINS {len(filings)} FILINGS...")
+    pprint(metadata)
+
+    print("----------------------------------------------")
     filings = [f for f in filings if (COMPANY_ID == f.company_id and FORM_NAME == f.form_name)]
-    print(f"FILTERED {len(filings)} FILINGS...")
+    print(f"FOUND {len(filings)} FILINGS...")
 
     for filing in filings:
-        print("--------")
+        print("---------------")
         print("COMPANY:", filing.company_name)
         print("FILED ON:", filing.date)
         print("DOCUMENT URL:", filing.document_url())

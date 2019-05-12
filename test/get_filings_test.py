@@ -17,7 +17,11 @@ def test_get_filings():
     metadata, filings = get_filings(idx)
 
     assert metadata == master_idx_metadata
-    assert len(filings) == 303619
+    assert len(filings) == 303618
+    assert filings[0].company_id == "1000032"
+    assert filings[0].company_name == "BINCH JAMES G"
+    assert filings[-1].company_id == "99947"
+    assert filings[-1].company_name == "TRUBEE, COLLINS & CO., INC."
 
 def test_metadata():
     header_lines = [
