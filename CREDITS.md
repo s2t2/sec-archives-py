@@ -11,3 +11,5 @@
 
   + https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/datatypes/classes.md
   + https://realpython.com/instance-class-and-static-methods-demystified/
+  + https://github.com/prof-rossetti/georgetown-opim-243-201901/blob/master/notes/python/modules/csv.md
+  + https://stackoverflow.com/questions/14885908/strip-white-spaces-from-csv-file#comment95173148_32486472
