@@ -1,6 +1,8 @@
 
 # SEC Archives (Python)
 
+[![Build Status](https://travis-ci.com/s2t2/sec-archives-py.svg?branch=master)](https://travis-ci.com/s2t2/sec-archives-py)
+
 ## Prerequisites
 
 Requires Anaconda, Python, and Pip versions 3.7.
@@ -25,11 +27,11 @@ pip install -r requirements.txt
 Get filings (optionally specifying search params):
 
 ```sh
-python -m app.get_filings
+python -m app.services.get_filings
 
-COMPANY="1000180" python -m app.get_filings
+COMPANY="1000180" python -m app.services.get_filings
 
-COMPANY="1018724" YR="2013" QTR="1" python -m app.get_filings
+COMPANY="1018724" YR="2013" QTR="1" python -m app.services.get_filings
 ```
 
 ## Testing
