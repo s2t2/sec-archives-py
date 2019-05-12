@@ -47,27 +47,24 @@ if __name__ == "__main__":
     for q in quarters:
 
         print("-----------------------")
-        print("YEAR:", q.yr)
-        print("QTR:", q.qtr)
-        print("FILINGS INDEX:", q.filings_url())
+        print(f"{q.yr} Q{q.qtr} ({q.filings_url()}):")
 
         metadata, filings = get_filings(q)
         matching_filings = [f for f in filings if (COMPANY_ID == f.company_id and FORM_NAME == f.form_name)]
         print(f"FOUND {len(matching_filings)} OUT OF {len(filings)} FILINGS")
 
         for filing in matching_filings:
-
-            print("  -----------------")
-            print("  COMPANY:", filing.company_name)
-            print("  FILED ON:", filing.date)
-            print("  DOCUMENT URL:", filing.document_url())
+            print("...")
+            print("COMPANY:", filing.company_name)
+            print("FILED ON:", filing.date)
+            print("DOCUMENT URL:", filing.document_url())
             response = requests.get(filing.document_url())
 
             # TODO: write response to file
 
-            print("  DOCUMENT SEARCH:")
+            print("DOCUMENT SEARCH:")
             for search_term in search_terms:
 
                 n = response.text.count(search_term)
 
-                print("   + ", search_term, n)
+                print(" + ", search_term, n)
