@@ -24,6 +24,29 @@ pip install -r requirements.txt
 
 ## Usage
 
+### Parsing 10Ks given CSV Inputs
+
+Specify desired years and company ids in "data/inputs.csv":
+
+    year, company_id
+    2013, 1018724
+    2014, 1018724
+    2015, 1018724
+    2013, 1288776
+    2014, 1288776
+    2015, 1288776
+    2013, 789019
+    2014, 789019
+    2015, 789019
+
+Then run `python -m app.services.csv_10k_filings` to see results written to "data/outputs.csv":
+
+
+    TODO
+
+
+### Other Scripts
+
 Get filings (optionally specifying search params):
 
 ```sh
