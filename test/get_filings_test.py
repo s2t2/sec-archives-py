@@ -1,4 +1,4 @@
-from app.get_filings import new_filing
+from app.services.get_filings import new_filing
 from app.models.filing import Filing
 
 def test_new_filing():
