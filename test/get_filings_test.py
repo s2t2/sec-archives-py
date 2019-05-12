@@ -1,16 +1,10 @@
+import os
+
 from app.services.get_filings import get_filings, parse_header_lines, new_filing
 from app.models.filing import Filing
 from app.models.quarter import Quarter
 
-master_idx_metadata = {
-    "desc": "Master Index of EDGAR Dissemination Feed",
-    "date": "March 31, 2013",
-    "email": "webmaster@sec.gov",
-    "ftp_url": "ftp://ftp.sec.gov/edgar/",
-    "url": "https://www.sec.gov/Archives/"
-}
-
-# ignore me on CI!
+@pytest.mark.skipif(os.environ.get("CI") == "true", reason="avoids HTTP requests")
 def test_get_filings():
     idx = Quarter(2013, 1)
 
@@ -22,6 +16,14 @@ def test_get_filings():
     assert filings[0].company_name == "BINCH JAMES G"
     assert filings[-1].company_id == "99947"
     assert filings[-1].company_name == "TRUBEE, COLLINS & CO., INC."
+
+master_idx_metadata = {
+    "desc": "Master Index of EDGAR Dissemination Feed",
+    "date": "March 31, 2013",
+    "email": "webmaster@sec.gov",
+    "ftp_url": "ftp://ftp.sec.gov/edgar/",
+    "url": "https://www.sec.gov/Archives/"
+}
 
 def test_metadata():
     header_lines = [
