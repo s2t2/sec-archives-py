@@ -56,6 +56,8 @@ if __name__ == "__main__":
     # GET FILINGS FOR REQUESTED QUARTERS
     #
 
+    results = []
+
     for q in quarters:
 
         print("-----------------------")
@@ -70,26 +72,38 @@ if __name__ == "__main__":
             print("COMPANY:", filing.company_name)
             print("FILED ON:", filing.date)
             print("DOCUMENT URL:", filing.document_url())
+
+            result = {
+                "year": q.yr,
+                "company_id": filing.company_id,
+                "company_name": filing.company_name,
+                "filed_on": filing.date,
+                "url": filing.document_url()
+            }
+
             response = requests.get(filing.document_url())
 
             # TODO: write response to file
 
             print("DOCUMENT SEARCH:")
             for search_term in search_terms:
-
                 n = response.text.count(search_term)
-
                 print(" + ", search_term, n)
+                result[search_term] = n
+
+            results.append(result)
 
     #
     # WRITE RESULTS TO FILE
     #
 
-    outputs = inputs
+    headers = ["year", "company_id", "company_name", "filed_on", "url"]
+    for search_term in search_terms:
+        headers.append(search_term)
 
-    with open(csv_file_path, "w") as csv_file: # "w" means "open the file for writing"
-        writer = csv.DictWriter(csv_file, fieldnames=["year", "company_id"])
+    with open(OUTPUTS_CSV_FILEPATH, "w") as csv_file: # "w" means "open the file for writing"
+        writer = csv.DictWriter(csv_file, fieldnames=headers)
         writer.writeheader()
 
-        for output in outputs:
-            writer.writerow(output)
+        for result in results:
+            writer.writerow(result)
