@@ -38,8 +38,7 @@ if __name__ == "__main__":
     # DETERMINE REQUESTED QUARTERS AND COMPANIES
     #
 
-    company_ids = [i["company_id"] for i in inputs]
-    company_ids = list(set(company_ids)) #> []
+
 
     quarters = []
 
@@ -64,7 +63,12 @@ if __name__ == "__main__":
         print(f"{q.yr} Q{q.qtr} ({q.filings_url()}):")
 
         metadata, filings = get_filings(q)
+
+        company_ids = [i["company_id"] for i in inputs if str(i["year"]) == str(q.yr) ]
+        company_ids = list(set(company_ids))
+
         matching_filings = [f for f in filings if (f.company_id in company_ids and f.form_name == FORM_NAME)]
+
         print(f"FOUND {len(matching_filings)} OUT OF {len(filings)} FILINGS")
 
         for filing in matching_filings:
